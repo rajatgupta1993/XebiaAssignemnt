@@ -13,7 +13,8 @@ constructor(){
 	}
 	this.checkIfLoggedIn=this.checkIfLoggedIn.bind(this);
 }
-	componentDidMount(){
+
+	componentWillMount(){
 		this.checkIfLoggedIn();
 	}
 	async checkIfLoggedIn(){
@@ -26,18 +27,12 @@ constructor(){
 	}
 
 	render(){
-		console.log(this.props.store);
-		console.log(this.state.isLogin);
-	
 
     const Layout = AppNavigator(this.state.isLogin);
-    
 		return (
-				<View style={{flex:1}}>
-					
+				<View style={{flex:1}}>	
 					<Layout/>
 				</View>
-
 			);
 	}
 }

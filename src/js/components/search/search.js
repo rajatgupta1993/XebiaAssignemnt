@@ -3,12 +3,14 @@ import {
     Text,
     View,
     ScrollView,
-    Dimensions
+    Dimensions,
+    StyleSheet
 } from 'react-native';
 import { Container, Item, Input, Icon } from 'native-base';
 import { getFilteredDataRequest } from './../../actions/actions';
 import PlanetRow from './planetRow';
 import ActivityIndicator from '../common/activityIndicator';
+import * as PropTypes from 'prop-types';
 
 const { width, height } = Dimensions.get('window');
 
@@ -16,11 +18,9 @@ class Search extends React.PureComponent {
 
     constructor(props) {
         super(props);
-
         this.state = {
             searchTerm: '',
         };
-
         this.onSearchTextChange = this.onSearchTextChange.bind(this);
         this.onCrossClicked = this.onCrossClicked.bind(this);
     }
@@ -44,11 +44,12 @@ class Search extends React.PureComponent {
 
         console.log("planets in search", this.props);
         return (
-            <Container style={{ flex: 1, backgroundColor: '#444' }}>
+            <Container style={styles.container}>
 
                 <View style={{ backgroundColor: '#888', padding: 10 }}>
                     <Item style={{ backgroundColor: '#444', paddingHorizontal: 10 }}>
                         <Icon name="ios-search" style={{ color: '#fff' }} />
+
                         <Input placeholder="Search Planet"
                             placeholderTextColor="#fff"
                             onChangeText={this.onSearchTextChange.bind(this)}
@@ -76,15 +77,9 @@ class Search extends React.PureComponent {
                                 data={this.props.planets}
                             />
                         </View>) :
-                        (<View style={{
-                            height: height - 60,
-                            flex: 1,
-                            backgroundColor: '#444',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}>
+                        (<View style={styles.bodyContainer}>
                             <Icon name="md-search" style={{ color: '#fff' }} />
-                            <Text style={{ fontSize: 16, fontFamily: 'roboto', color: '#fff' }}>
+                            <Text style={styles.textStyle}>
                                 Search Planet
                              </Text>
                         </View>)}
@@ -97,6 +92,27 @@ class Search extends React.PureComponent {
 
 export default Search;
 
-// Search.propTypes = {
-//     isLoading: bool,
-// };
+Search.propTypes = {
+    isFetching: PropTypes.bool,
+    planets: PropTypes.array,
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#444'
+    },
+    textStyle: {
+        fontSize: 16,
+        fontFamily: 'roboto',
+        color: '#fff'
+    },
+    bodyContainer: {
+        height: height - 60,
+        flex: 1,
+        backgroundColor: '#444',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+
+});

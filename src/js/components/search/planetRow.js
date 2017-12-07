@@ -4,25 +4,27 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native';
-
 import _ from 'lodash';
+import { populationRange } from '../../common/utils';
+import * as PropTypes from 'prop-types';
 
 function planetRow(props) {
 
     const generateRow = (data) => _.map(data, (value, key) => {
-       
-       
-        return(
+        const populationSize = populationRange(value.population);
+        return (
             <TouchableOpacity key={key} onPress={() => props.navigation.navigate('PlanetInfo', value)} >
-                <View style= {{ padding : 10 ,borderWidth:1,borderColor:'#888' }}>
-                    <Text style={{ color:'#fff'}} > {value.name }</Text>
-                    <View style={{flexDirection:'row'}}>
-                          <Text style={{ color:'#fff'}} > Population -</Text>
-                        <Text style={{ color:'#fff'}} > {value.population }</Text>
+                <View style={{ padding: 10, borderWidth: 1, borderColor: '#888' }}>
+                    <Text style={{ color: '#fff', fontSize: populationSize }} > {value.name}</Text>
+
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ color: '#fff', fontSize: populationSize }} > Population -</Text>
+                        <Text style={{ color: '#fff', fontSize: populationSize }} > {value.population}</Text>
                     </View>
+
                 </View>
             </TouchableOpacity>
-        )
+        );
     });
 
     return (
@@ -31,8 +33,9 @@ function planetRow(props) {
         </View>
     );
 }
-// planetRow.propTypes = {
-//     data: PropTypes.array,
-// };
+
+planetRow.propTypes = {
+    data: PropTypes.array,
+};
 
 export default planetRow;

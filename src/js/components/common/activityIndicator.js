@@ -2,14 +2,15 @@ import React from 'react';
 import {
     ActivityIndicator,
     View,
-    Dimensions
+    Dimensions,
 } from 'react-native';
+import * as PropTypes from 'prop-types';
 
-const {height,width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 export default function activityIndicator({ animating, color, size }) {
     return (
-        <View style={{width,height,justifyContent:'center', alignItems:'center'}}>
+        <View style={{ width, height, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator
                 animating={animating}
                 color={color}
@@ -19,8 +20,8 @@ export default function activityIndicator({ animating, color, size }) {
     );
 }
 
-// activityIndicator.propTypes = {
-//     animating: PropTypes.bool,
-//     color: PropTypes.string,
-//     size: PropTypes.string,
-// };
+activityIndicator.propTypes = {
+    animating: PropTypes.bool,
+    color: PropTypes.string,
+    size: PropTypes.string,
+};

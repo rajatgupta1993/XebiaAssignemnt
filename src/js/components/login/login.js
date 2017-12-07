@@ -1,16 +1,18 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Dimensions from 'Dimensions';
 import {
 	StyleSheet,
 	View,
 	TextInput,
 	Text,
-	Button,
 	ToastAndroid,
+	Image,
+	ScrollView,
 	KeyboardAvoidingView,
 } from 'react-native';
 import { AsyncStorage } from 'react-native';
-import UserInput from './userInput';
+import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
+import * as PropTypes from 'prop-types';
 import _ from 'lodash';
 import ActivityIndicator from '../common/activityIndicator';
 
@@ -28,10 +30,6 @@ export default class Login extends Component {
 		this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	// componentDidMount(){
-	// 	this.props.loginDataRequest("ddsds");
-	// }
-
 	componentDidUpdate(prevProps, prevState) {
 		const password = this.state.pass;
 		let peoples = this.props.people
@@ -40,6 +38,7 @@ export default class Login extends Component {
 				let checkPassword = _.filter(peoples, (people) => (people.birth_year === password))
 				if (checkPassword.length > 0) {
 					this.setState({ hasError: false });
+					AsyncStorage.setItem("ISLOGIN", "true");
 					this.props.navigation.navigate('Search');
 					ToastAndroid.show('You are Logged in', ToastAndroid.SHORT);
 				}
@@ -47,7 +46,6 @@ export default class Login extends Component {
 					ToastAndroid.show('wrong credentials', ToastAndroid.SHORT);
 				}
 			}
-
 			else {
 				ToastAndroid.show('wrong credentials', ToastAndroid.SHORT);
 			}
@@ -71,84 +69,79 @@ export default class Login extends Component {
 		AsyncStorage.setItem('username', username);
 		AsyncStorage.setItem('password', password);
 		this.props.loginDataRequest(username);
-		
-
 	}
 
 	render() {
 		console.log(this.props);
 		return (
 
+			<ScrollView>
+				<KeyboardAvoidingView behavior='padding' style={styles.container}>
 
-			<KeyboardAvoidingView behavior='padding' style={styles.container}>
-				{/*{this.props.isFetching && (<ActivityIndicator
-					animating
-					color="#1E90FF"
-					size="large"
-				/>)}*/}
-				<View >
+					{this.props.isFetching && (<ActivityIndicator
+						animating
+						color="#1E90FF"
+						size="large"
+					/>)}
 
-					<TextInput style={styles.input}
-						placeholder="username"
-						placeholderTextColor='black'
-						onChangeText={this.onEmailChange}
-						value={this.state.email}
-						underlineColorAndroid='transparent'
-						returnKeyType="next" />
-				</View>
+					<View style={{ paddingHorizontal: 20,}}>
 
-				<View style={{ marginBottom: 30 }}>
+						<View style={{ alignItems: 'center' }}>
+							<Image style={{ width: 300, height: 200 }}
+								source={require('../../../resources/starwars.png')}
+							/>
+						</View>
+						<Form>
+							<Item floatingLabel>
+								<Label style={{ color: '#fff', fontWeight: '500' }}>Username</Label>
+								<Input
+									onChangeText={this.onEmailChange}
+									value={this.state.email}
+									underlineColorAndroid='transparent'
+									returnKeyType="next" />
+							</Item>
 
-					<TextInput style={styles.input}
-						placeholder="password"
-						placeholderTextColor='black'
-						onChangeText={this.onPassChange}
-						value={this.state.pass}
-						underlineColorAndroid='transparent'
-						returnKeyType="done"
-						secureTextEntry={true} />
-				</View>
+							<Item floatingLabel >
+								<Label style={{ color: '#fff', fontWeight: '500' }}>Password</Label>
+								<Input
+									onChangeText={this.onPassChange}
+									value={this.state.pass}
+									underlineColorAndroid='transparent'
+									returnKeyType="done"
+									secureTextEntry={true} />
+							</Item>
+						</Form>
 
-
-				<Button style={{ paddingHorizontal: 30, marginTop: 30 }}
-					onPress={this.onSubmit}
-					title="Submit"
-					color="#841584"
-					accessibilityLabel="Learn more about this purple button"
-				/>
-			</KeyboardAvoidingView>
+						<Button block dark
+							style={{ marginTop: 30, backgroundColor: '#444', marginLeft: 15 }}
+							onPress={this.onSubmit}>
+							<Text style={{ color: '#fff' }}>Submit</Text>
+						</Button>
+					</View>
+				</KeyboardAvoidingView>
+			</ScrollView>
 
 
 		);
 	}
 }
 
-// Login.propTypes = {
-// 	source: PropTypes.number.isRequired,
-// 	placeholder: PropTypes.string.isRequired,
-// 	secureTextEntry: PropTypes.bool,
-// 	autoCorrect: PropTypes.bool,
-// 	autoCapitalize: PropTypes.string,
-// 	returnKeyType: PropTypes.string,
-// };
+Login.propTypes = {
+	isFetching: PropTypes.bool,
+	loginDataRequest: PropTypes.func
+};
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
 	container: {
-
 		width: DEVICE_WIDTH,
 		height: DEVICE_HEIGHT,
 		backgroundColor: '#888',
-		justifyContent: 'center'
+		paddingTop:30,
+	},
 
-	},
-	btnEye: {
-		position: 'absolute',
-		top: 55,
-		right: 28,
-	},
 	input: {
 		backgroundColor: 'rgba(255, 255, 255, 0.4)',
 		width: DEVICE_WIDTH - 40,
@@ -159,15 +152,5 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 		marginTop: 30
 	},
-	inputWrapper: {
-		flex: 1,
-	},
-	inlineImg: {
-		position: 'absolute',
-		zIndex: 99,
-		width: 22,
-		height: 22,
-		left: 35,
-		top: 9,
-	},
+		
 });
