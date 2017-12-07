@@ -11,6 +11,7 @@ import {
 	KeyboardAvoidingView,
 } from 'react-native';
 import { AsyncStorage } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
 import * as PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -28,6 +29,7 @@ export default class Login extends Component {
 		this.onEmailChange = this.onEmailChange.bind(this);
 		this.onPassChange = this.onPassChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.onLogin=this.onLogin.bind(this);
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -39,7 +41,7 @@ export default class Login extends Component {
 				if (checkPassword.length > 0) {
 					this.setState({ hasError: false });
 					AsyncStorage.setItem("ISLOGIN", "true");
-					this.props.navigation.navigate('Search');
+					this.onLogin();
 					ToastAndroid.show('You are Logged in', ToastAndroid.SHORT);
 				}
 				else {
@@ -52,6 +54,17 @@ export default class Login extends Component {
 			this.state.email = ""
 			this.state.pass = ""
 		}
+	}
+
+	onLogin() {
+
+		const resetAction = NavigationActions.reset({
+			index: 0,
+			actions: [
+				NavigationActions.navigate({ routeName: 'Search' })
+			]
+		})
+		this.props.navigation.dispatch(resetAction);
 	}
 
 	onEmailChange(email) {
@@ -84,7 +97,7 @@ export default class Login extends Component {
 						size="large"
 					/>)}
 
-					<View style={{ paddingHorizontal: 20,}}>
+					<View style={{ paddingHorizontal: 20, }}>
 
 						<View style={{ alignItems: 'center' }}>
 							<Image style={{ width: 300, height: 200 }}
@@ -139,7 +152,7 @@ const styles = StyleSheet.create({
 		width: DEVICE_WIDTH,
 		height: DEVICE_HEIGHT,
 		backgroundColor: '#888',
-		paddingTop:30,
+		paddingTop: 30,
 	},
 
 	input: {
@@ -152,5 +165,5 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 		marginTop: 30
 	},
-		
+
 });
