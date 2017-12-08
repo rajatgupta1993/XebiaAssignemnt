@@ -3,24 +3,27 @@ import * as actionTypes from '../common/constants';
 const initialState = {
     searchKey: '',
     totalHits: 0,
+    apiCountArray: [],
+
 };
 
 export default function(state = initialState, action) {
     switch (action.type) {
 
-        case actionTypes.SET_SEARCH_KEY:
+        case actionTypes.INCREMENT_API_HITS_COUNTER:
             return Object.assign({}, state, {
-                searchKey: action.searchKey,
+                searchKey: ++state.totalHits,
             });
 
-        case actionTypes.CLEAR_SEARCH_KEY:
+        case actionTypes.ADD_API_TIMESTAMP:
             return Object.assign({}, state, {
-                searchKey: '',
+                apiCountArray: state.apiCountArray.concat(action.data),
             });
 
-        case actionTypes.CLEAR_SEARCH_HITS:
+        case actionTypes.CLEAR_API_COUNTER:
             return Object.assign({}, state, {
                 totalHits: 0,
+                apiCountArray:[],
             });
 
         case actionTypes.SET_SEARCH_HITS:

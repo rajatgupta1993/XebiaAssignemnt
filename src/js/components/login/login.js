@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Dimensions from 'Dimensions';
 import {
 	StyleSheet,
 	View,
@@ -9,8 +8,9 @@ import {
 	Image,
 	ScrollView,
 	KeyboardAvoidingView,
+	AsyncStorage,
+	Dimensions,
 } from 'react-native';
-import { AsyncStorage } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
 import * as PropTypes from 'prop-types';
@@ -29,7 +29,7 @@ export default class Login extends Component {
 		this.onEmailChange = this.onEmailChange.bind(this);
 		this.onPassChange = this.onPassChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
-		this.onLogin=this.onLogin.bind(this);
+		this.onLogin = this.onLogin.bind(this);
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -51,8 +51,8 @@ export default class Login extends Component {
 			else {
 				ToastAndroid.show('wrong credentials', ToastAndroid.SHORT);
 			}
-			this.state.email = ""
-			this.state.pass = ""
+			this.state.email = "";
+			this.state.pass = "";
 		}
 	}
 

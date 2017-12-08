@@ -9,6 +9,7 @@ const mapStateToProps = (state) => {
         searchKey: state.search.searchKey,
         errorMessage: state.planets.errorMessage,
         isFetching: state.planets.isFetching,
+        search: state.search,
     };
 };
 

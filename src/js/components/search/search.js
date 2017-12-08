@@ -4,10 +4,10 @@ import {
     View,
     ScrollView,
     Dimensions,
-    StyleSheet
+    StyleSheet,
+    ToastAndroid
 } from 'react-native';
 import { Container, Item, Input, Icon } from 'native-base';
-import { getFilteredDataRequest } from './../../actions/actions';
 import PlanetRow from './planetRow';
 import ActivityIndicator from '../common/activityIndicator';
 import * as PropTypes from 'prop-types';
@@ -26,12 +26,29 @@ class Search extends React.PureComponent {
     }
 
     onSearchTextChange(searchKey) {
-        this.setState({ searchTerm: searchKey });
+       
+        const { search } = this.props;
+        console.log("total hits", search.totalHits);
+        const currentTime= new Date().getTime();
+        // if(currentTime - search.apiCountArray[search.totalHits - 1] > 6 * 1000 ){
+        //     console.log("counter cleared");
+        //     this.props.actions.clearApiCounter();
+        // }
         if (searchKey.length < 1) {
+             this.setState({ searchTerm: searchKey });
             this.props.actions.getFilteredDataSuccess([]);
-        }
-        else {
-            this.props.actions.getFilteredDataRequest(searchKey);
+        } else {
+            if (search.totalHits < 5) {
+                 this.setState({ searchTerm: searchKey });
+                this.props.actions.getFilteredDataRequest(searchKey);
+            } else if ((search.totalHits >= 5) &&
+                (currentTime - search.apiCountArray[search.totalHits - 4] > 6 * 1000)) {
+                     this.setState({ searchTerm: searchKey });
+                this.props.actions.getFilteredDataRequest(searchKey);
+            } else {
+                ToastAndroid.show("Limit exceeded", ToastAndroid.SHORT);
+            }
+
         }
     }
 

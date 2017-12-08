@@ -8,23 +8,25 @@ import { AsyncStorage } from 'react-native';
 
 export function* fetchFilteredData(action) {
   try {
-  
-    const data = yield call(getFilteredData, action.id)
-    yield put(actions.getFilteredDataSuccess(data))
+    let timeStamp = new Date().getTime();
+    yield put(actions.incrementApiHitsCounter());
+    yield put(actions.addApiTimestamp(timeStamp));
+    const data = yield call(getFilteredData, action.id);
+    yield put(actions.getFilteredDataSuccess(data));
     // let totalHits = JSON.parse(window.localStorage.getItem('totalHits'))
     // window.localStorage.setItem('totalHits', JSON.stringify(totalHits+1))
-   // yield put(actions.setSearchHits( totalHits + 1)) 
+    // yield put(actions.setSearchHits( totalHits + 1)) 
   } catch (error) {
     yield put(actions.getFilteredDataFailure(error.message))
   }
 }
 export function* checkLoginData(action) {
- try {
+  try {
     const data = yield call(getLoginData, action.username);
     yield put(actions.loginDataSuccess(data));
- } catch (error) {
+  } catch (error) {
     yield put(actions.loginDataFailure(error.message))
- }
+  }
 }
 
 export function* watchFetchAsync() {
