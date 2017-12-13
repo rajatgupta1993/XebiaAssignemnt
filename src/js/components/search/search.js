@@ -11,6 +11,7 @@ import { Container, Item, Input, Icon } from 'native-base';
 import PlanetRow from './planetRow';
 import ActivityIndicator from '../common/activityIndicator';
 import * as PropTypes from 'prop-types';
+import * as constants from '../../common/constants';
 
 const { width, height } = Dimensions.get('window');
 
@@ -26,27 +27,23 @@ class Search extends React.PureComponent {
     }
 
     onSearchTextChange(searchKey) {
-       
         const { search } = this.props;
         console.log("total hits", search.totalHits);
         const currentTime= new Date().getTime();
-        // if(currentTime - search.apiCountArray[search.totalHits - 1] > 6 * 1000 ){
-        //     console.log("counter cleared");
-        //     this.props.actions.clearApiCounter();
-        // }
+
         if (searchKey.length < 1) {
-             this.setState({ searchTerm: searchKey });
+            this.setState({ searchTerm: searchKey });
             this.props.actions.getFilteredDataSuccess([]);
         } else {
-            if (search.totalHits < 5) {
+            if(search.totalHits < 15) {
                  this.setState({ searchTerm: searchKey });
                 this.props.actions.getFilteredDataRequest(searchKey);
-            } else if ((search.totalHits >= 5) &&
-                (currentTime - search.apiCountArray[search.totalHits - 4] > 6 * 1000)) {
+            } else if ((search.totalHits >= 15) &&
+                (currentTime - search.apiCountArray[search.totalHits - 14] > 60 * 1000)) {
                      this.setState({ searchTerm: searchKey });
                 this.props.actions.getFilteredDataRequest(searchKey);
             } else {
-                ToastAndroid.show("Limit exceeded", ToastAndroid.SHORT);
+                ToastAndroid.show(constants.SEARCH_LIMIT_EXCEEDED, ToastAndroid.SHORT);
             }
 
         }
@@ -58,8 +55,6 @@ class Search extends React.PureComponent {
     }
 
     render() {
-
-        console.log("planets in search", this.props);
         return (
             <Container style={styles.container}>
 
@@ -117,12 +112,12 @@ Search.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#444'
+        backgroundColor: '#444',
     },
     textStyle: {
         fontSize: 16,
         fontFamily: 'roboto',
-        color: '#fff'
+        color: '#fff',
     },
     bodyContainer: {
         height: height - 60,
@@ -130,6 +125,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#444',
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
 
 });

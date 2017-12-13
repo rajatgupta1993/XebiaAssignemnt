@@ -1,6 +1,3 @@
-export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
-export const GET_DATA_REQUEST = 'GET_DATA_REQUEST';
-export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
 export const LOGIN_DATA_SUCCESS = 'LOGIN_DATA_SUCCESS';
 export const LOGIN_DATA_REQUEST = 'LOGIN_DATA_REQUEST';
 export const LOGIN_DATA_FAILURE = 'LOGIN_DATA_FAILURE';
@@ -10,16 +7,8 @@ export const GET_FILTERDDATA_FAILURE = 'GET_FILTERDDATA_FAILURE';
 export const INCREMENT_API_HITS_COUNTER = 'INCREMENT_API_HITS_COUNTER';
 export const ADD_API_TIMESTAMP = 'ADD_API_TIMESTAMP';
 export const CLEAR_API_COUNTER = 'CLEAR_API_COUNTER';
-export const SET_SEARCH_KEY = 'SET_SEARCH_KEY';
-export const CLEAR_SEARCH_KEY = 'CLEAR_SEARCH_KEY';
-export const SET_SEARCH_HITS = 'SET_SEARCH_HITS';
-export const CLEAR_SEARCH_HITS = 'CLEAR_SEARCH_HITS';
-export const LOGIN_HEADER = 'LOGIN TO STARWARS';
-export const WRONG_CREDENTIALS = 'Wrong Credentials!';
-export const HEADER = 'TECHIE DETAILS';
 export const API_URL = 'https://swapi.co/api/planets';
 export const LOGIN_URL = 'https://swapi.co/api/people';
 export const TRY_AGAIN = 'Please try again.';
 export const SEARCH_LIMIT_EXCEEDED = 'Search Limit Exceeded ! You can search upto 15 times only';
-export const DATA_FOUND = 'No Data Found! Please Search Again.';
 

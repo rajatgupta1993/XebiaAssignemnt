@@ -17,7 +17,7 @@ function onLogout(navigation) {
         index: 0,
         actions: [
             NavigationActions.navigate({ routeName: 'Login' })
-        ]
+        ],
     })
     navigation.dispatch(resetAction);
 }
@@ -78,8 +78,8 @@ const appNavigator = (isLogin) => {
             },
         },
     },
-        {
-            initialRouteName: isLogin ? "Search" : "Login"
-        });
-}
+    {
+        initialRouteName: isLogin ? "Search" : "Login"
+    });
+};
 export default appNavigator;

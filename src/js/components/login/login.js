@@ -57,7 +57,6 @@ export default class Login extends Component {
 	}
 
 	onLogin() {
-
 		const resetAction = NavigationActions.reset({
 			index: 0,
 			actions: [
